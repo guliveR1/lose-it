@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks/typed-redux';
 import { sagaActions } from '../../sagas/sagaActions';
 import { UserForm } from '../../shared-components/UserForm';
 import { WithSideImage } from '../../shared-components/WithSideImage';

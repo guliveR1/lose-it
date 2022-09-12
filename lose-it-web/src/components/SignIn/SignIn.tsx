@@ -2,7 +2,7 @@ import * as React from 'react';
 import { WithSideImage } from '../../shared-components/WithSideImage';
 import { useDispatch } from 'react-redux';
 import { sagaActions } from '../../sagas/sagaActions';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks/typed-redux';
 import { useCallback, useEffect } from 'react';
 import { UserForm } from '../../shared-components/UserForm';
 

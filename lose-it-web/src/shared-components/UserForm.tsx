@@ -21,15 +21,7 @@ export const UserForm = ({ onSubmit, errorMessage, type }: UserFormProps) => {
     }, [onSubmit]);
 
     return (
-        <Box
-            sx={{
-                my: 8,
-                mx: 4,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-            }}
-        >
+        <>
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                 <LockOutlinedIcon />
             </Avatar>
@@ -81,6 +73,6 @@ export const UserForm = ({ onSubmit, errorMessage, type }: UserFormProps) => {
                     </Grid>
                 </Grid>
             </Box>
-        </Box>
+        </>
     )
 }
