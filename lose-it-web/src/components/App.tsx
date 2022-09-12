@@ -1,9 +1,25 @@
-import React from 'react';
-import { useAppSelector } from '../hooks';
+import React, { useEffect } from 'react';
 import { SignIn } from './SignIn/SignIn';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HomePage } from './HomePage/HomePage';
+import { useDispatch } from 'react-redux';
+import { sagaActions } from '../sagas/sagaActions';
+import { Register } from './Register/Register';
 
 export const App = () => {
-    const isLoggedIn = useAppSelector(state => state.user.isLoggedIn);
+    const dispatch = useDispatch();
 
-    return isLoggedIn ? <>Home page</> : <SignIn />;
+    useEffect(() => {
+        dispatch({ type: sagaActions.GET_USER });
+    }, [dispatch]);
+    
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="login" element={<SignIn />} />
+                <Route path="register" element={<Register />} />
+            </Routes>
+        </BrowserRouter>
+    );
 };

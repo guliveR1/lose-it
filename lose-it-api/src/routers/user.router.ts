@@ -6,6 +6,10 @@ export const userRouter = express.Router();
 
 const sha256 = (input: string) => createHash('sha256').update(input).digest('hex');
 
+userRouter.get('/user', async (req: Request, res: Response) => {
+  res.json(req.session.user);
+});
+
 userRouter.post('/login', async (req: Request, res: Response) => {
   const { email, password: inputPassword } = req.body;
   const user = await User.findOne({ where: { email } });
