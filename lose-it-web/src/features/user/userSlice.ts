@@ -15,7 +15,8 @@ const initialState: UserState = {
     hasLoginError: false,
     hasRegisterError: false,
     user: {
-        email: ''
+        email: '',
+        onboarded: false,
     },
 }
 

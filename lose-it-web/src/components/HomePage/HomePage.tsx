@@ -1,14 +1,15 @@
 import React, { useEffect } from "react"
-import { useAppSelector } from "../../hooks"
+import { useAppSelector } from "../../hooks/typed-redux";
+import { useUser } from "../../hooks/useCheckUser";
 
 export const HomePage = () => {
-    const { isLoggedIn, isUserLoaded, user } = useAppSelector(state => state.user);
+    const { isLoggedIn, user } = useUser();
 
     useEffect(() => {
-        if (isUserLoaded && !isLoggedIn) {
-            window.location.href = '/login';
+        if (user && !user.onboarded) {
+            window.location.href = '/onboard';
         }
-    }, [isLoggedIn, isUserLoaded]);
+    }, [user]);
 
     return isLoggedIn && <>{user.email}</>;
 }

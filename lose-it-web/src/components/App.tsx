@@ -5,6 +5,7 @@ import { HomePage } from './HomePage/HomePage';
 import { useDispatch } from 'react-redux';
 import { sagaActions } from '../sagas/sagaActions';
 import { Register } from './Register/Register';
+import { Onboard } from './Onboard/Onboard';
 
 export const App = () => {
     const dispatch = useDispatch();
@@ -19,6 +20,7 @@ export const App = () => {
                 <Route path="/" element={<HomePage />} />
                 <Route path="login" element={<SignIn />} />
                 <Route path="register" element={<Register />} />
+                <Route path="onboard" element={<Onboard />} />
             </Routes>
         </BrowserRouter>
     );

@@ -1,4 +1,4 @@
-import { CssBaseline, Grid, Paper } from '@mui/material';
+import { Box, CssBaseline, Grid, Paper } from '@mui/material';
 import React from 'react';
 
 export const WithSideImage = ({ children }) =>
@@ -19,6 +19,16 @@ export const WithSideImage = ({ children }) =>
             }}
         />
         <Grid item xs={12} sm={8} md={6} component={Paper} elevation={6} square>
-            {children}
+            <Box
+                sx={{
+                    my: 8,
+                    mx: 4,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
+            >
+                {children}
+            </Box>
         </Grid>
     </Grid>
