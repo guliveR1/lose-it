@@ -1,14 +1,13 @@
-import * as React from 'react';
-import { WithSideImage } from '../../shared-components/WithSideImage';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { sagaActions } from '../../sagas/sagaActions';
 import { useAppSelector } from '../../hooks';
-import { useCallback, useEffect } from 'react';
+import { sagaActions } from '../../sagas/sagaActions';
 import { UserForm } from '../../shared-components/UserForm';
+import { WithSideImage } from '../../shared-components/WithSideImage';
 
-export const SignIn = () => {
+export const Register = () => {
+    const { isLoggedIn, hasRegisterError } = useAppSelector(state => state.user);
     const dispatch = useDispatch();
-    const { hasLoginError, isLoggedIn } = useAppSelector(state => state.user);
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -18,20 +17,20 @@ export const SignIn = () => {
 
     const handleSubmit = useCallback(async (email: string, password: string) => {
         dispatch({
-            type: sagaActions.LOGIN, payload: {
+            type: sagaActions.REGISTER, payload: {
                 email,
                 password,
             }
         });
     }, [dispatch]);
 
-    return !isLoggedIn && (
+    return (
         <WithSideImage>
             <UserForm
-                type='login'
+                type='register'
                 onSubmit={handleSubmit}
-                errorMessage={hasLoginError && 'The email or the password entered are incorrect!'}
+                errorMessage={hasRegisterError && 'User already exists'}
             />
         </WithSideImage>
-    );
+    )
 }
