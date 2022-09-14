@@ -5,5 +5,6 @@ export type User = {
     initialWeight?: number;
     height?: number;
     gender?: 'M' | 'F';
+    calorieGoal?: number;
     onboarded: boolean;
 }
