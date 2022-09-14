@@ -1,20 +1,11 @@
-import { Box, LinearProgress, linearProgressClasses, styled, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import React, { useEffect } from "react"
 import { useUser } from "../../hooks/useCheckUser";
-
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-    height: 12,
-    borderRadius: 5,
-    width: '60%',
-    margin: '0 auto',
-    [`&.${linearProgressClasses.colorPrimary}`]: {
-        backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
-    },
-    [`& .${linearProgressClasses.bar}`]: {
-        borderRadius: 5,
-        backgroundColor: theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8',
-    },
-}));
+import { CalorieGoal } from "./CalorieGoal/CalorieGoal";
+import { DailyTip } from "./DailyTip/DailyTip";
+import { Meals } from "./Meals/Meals";
+import { WeightChart } from "./WeightChart/WeightChart";
+import { Workouts } from "./Workouts/Workouts";
 
 export const HomePage = () => {
     const { isLoggedIn, user } = useUser();
@@ -40,17 +31,21 @@ export const HomePage = () => {
                     margin: '0 auto',
                     textAlign: 'center',
                     backgroundColor: 'white',
+                    height: "100vh"
                 }}
             >
                 <Box paddingTop="50px">
                     <Typography variant="h4" gutterBottom>
-                        Welcome back, {`${user.firstName} ${user.lastName}`}
+                        Welcome back, {`${user.firstName} ${user.lastName}!`}
                     </Typography>
                     <Box height="20px" />
-                    <Typography variant="h5" gutterBottom>
-                        Calories goal: 100 / {user.calorieGoal}
-                    </Typography>
-                    <BorderLinearProgress variant="determinate" value={50} />
+                    <Divider />
+                    <CalorieGoal />
+                    <Divider />
+                    <Meals />
+                    <Workouts />
+                    <WeightChart />
+                    <DailyTip />
                 </Box>
             </Box>
         </Box>
