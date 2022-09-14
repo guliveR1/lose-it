@@ -6,8 +6,30 @@ export const userRouter = express.Router();
 
 const sha256 = (input: string) => createHash('sha256').update(input).digest('hex');
 
+const calculateCalorieGoal = (user: User) => {
+  let BMR = 0;
+
+  // TODO: change to current weight and use real age
+  if (user.gender === 'M') {
+    BMR = 88.362 + (13.397 * user.initialWeight!) + (4.799 * user.height!) - (5.677 * 20);
+  } else {
+    BMR = 447.593 + (9.247 * user.initialWeight!) + (3.098 * user.height!) - (4.330 * 20);
+  }
+
+  return Math.round((1.2 * BMR) - 500);
+}
+
 userRouter.get('/user', async (req: Request, res: Response) => {
-  res.json(req.session.user);
+  if (req.session.user) {
+    const calorieGoal = req.session.user ? calculateCalorieGoal(req.session.user as User) : 0;
+
+    res.json({
+      ...req.session.user,
+      calorieGoal,
+    });
+  } else {
+    res.json();
+  }
 });
 
 userRouter.put('/user', async (req: Request, res: Response) => {
