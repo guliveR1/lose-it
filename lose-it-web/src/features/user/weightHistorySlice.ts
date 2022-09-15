@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { WeightHistory } from "../../types/weightHistory";
+import { WeightHistory } from "../../types/weightHistory.type";
 
-interface WeightHistoryState {
+type WeightHistoryState = {
     isLoading: boolean;
     hasError: boolean;
     history?: WeightHistory;

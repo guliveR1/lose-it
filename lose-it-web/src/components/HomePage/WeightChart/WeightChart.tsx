@@ -10,7 +10,7 @@ import {
     Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { Box, Button, Card, CardContent, CircularProgress, Fab, Skeleton, Typography } from "@mui/material";
+import { Box, Card, CardContent, CircularProgress, Typography } from "@mui/material";
 import { useAppSelector } from "../../../hooks/typed-redux";
 
 ChartJS.register(
@@ -26,7 +26,7 @@ ChartJS.register(
 export const WeightChart = () => {
     const { isLoading, hasError, history } = useAppSelector(state => state.weightHistory);
 
-    const labels = history?.map(({ timestamp }) => timestamp);
+    const labels = history?.map(({ timestamp }) => (new Date(timestamp)).toLocaleDateString());
     const data = {
         labels,
         datasets: [

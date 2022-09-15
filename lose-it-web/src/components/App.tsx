@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { sagaActions } from '../sagas/sagaActions';
 import { Register } from './Register/Register';
 import { Onboard } from './Onboard/Onboard';
+import { Dialogs } from './Dialogs/Dialogs';
 
 export const App = () => {
     const dispatch = useDispatch();
@@ -15,13 +16,16 @@ export const App = () => {
     }, [dispatch]);
     
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="login" element={<SignIn />} />
-                <Route path="register" element={<Register />} />
-                <Route path="onboard" element={<Onboard />} />
-            </Routes>
-        </BrowserRouter>
+        <>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="login" element={<SignIn />} />
+                    <Route path="register" element={<Register />} />
+                    <Route path="onboard" element={<Onboard />} />
+                </Routes>
+            </BrowserRouter>
+            <Dialogs />
+        </>
     );
 };
