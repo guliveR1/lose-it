@@ -3,12 +3,15 @@ import React, { useCallback, useEffect, useState } from "react"
 import { useDispatch } from "react-redux";
 import { useUser } from "../../hooks/useCheckUser";
 import { sagaActions } from "../../sagas/sagaActions";
+import { DatePicker } from "../../shared-components/DatePicker";
 import { WithSideImage } from "../../shared-components/WithSideImage"
+import moment from 'moment';
 
 export const Onboard = () => {
     const { user } = useUser();
     const dispatch = useDispatch();
     const [selectedGender, setSelectedGender] = useState('');
+    const [dateOfBirth, setDateOfBirth] = useState(moment().startOf('day'));
     
     useEffect(() => {
         if (user && user.onboarded) {
@@ -28,6 +31,7 @@ export const Onboard = () => {
             type: sagaActions.ONBOARD_USER, payload: {
                 firstName,
                 lastName,
+                dateOfBirth: dateOfBirth.toDate(),
                 initialWeight,
                 height,
                 gender: selectedGender
@@ -61,12 +65,18 @@ export const Onboard = () => {
                     label="Last Name"
                     autoComplete="last-name"
                 />
+                <Box height="15px" />
+                <DatePicker 
+                    value={dateOfBirth}
+                    onChange={setDateOfBirth}
+                    label="Date of birth"
+                />
                 <TextField
                     margin="normal"
                     required
                     fullWidth
                     name="initialWeight"
-                    label="Weight"
+                    label="Weight (kg)"
                     type="number"
                 />
                 <TextField
@@ -74,7 +84,7 @@ export const Onboard = () => {
                     required
                     fullWidth
                     name="height"
-                    label="Height"
+                    label="Height (cm)"
                     type="number"
                 />
                 <Box height="15px" />
