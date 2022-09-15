@@ -40,6 +40,7 @@ function* getUserData() {
 
         if (user) {
             yield put(loggedIn(user));
+            yield put({ type: sagaActions.FETCH_WEIGHT_HISTORY });
         }
     } finally {
         yield put(userLoaded());

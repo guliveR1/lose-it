@@ -3,5 +3,6 @@ export const sagaActions = {
     REGISTER: "REGISTER",
     GET_USER: "GET_USER",
     ONBOARD_USER: "ONBOARD_USER",
+    FETCH_WEIGHT_HISTORY: "FETCH_WEIGHT_HISTORY",
 };
   
