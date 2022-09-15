@@ -8,9 +8,10 @@ export type DatePickerProps = {
     value: Moment;
     onChange: (date: Moment) => void;
     label?: string;
+    variant?: 'standard' | 'filled' | 'outlined';
 }
 
-export const DatePicker = ({ value, onChange, label }: DatePickerProps) => {
+export const DatePicker = ({ value, onChange, label, variant }: DatePickerProps) => {
     return (
         <LocalizationProvider dateAdapter={AdapterMoment}>
             <DesktopDatePicker
@@ -18,7 +19,7 @@ export const DatePicker = ({ value, onChange, label }: DatePickerProps) => {
                 inputFormat="MM/DD/YYYY"
                 value={value}
                 onChange={onChange}
-                renderInput={(params) => <TextField fullWidth variant='standard' {...params} />}
+                renderInput={(params) => <TextField fullWidth variant={variant || 'outlined'} {...params} />}
             />
         </LocalizationProvider>
     )

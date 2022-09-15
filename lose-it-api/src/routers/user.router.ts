@@ -2,19 +2,34 @@ import { createHash } from "crypto";
 import express, { Response, Request, NextFunction } from "express";
 import { User } from "../models/User";
 import { WeightHistory } from "../models/WeightHistory";
+import moment from 'moment';
+import sequelize from 'sequelize';
 
 export const userRouter = express.Router();
 
 const sha256 = (input: string) => createHash('sha256').update(input).digest('hex');
 
-const calculateCalorieGoal = (user: User) => {
+const getCurrentWeight = async (userEmail: string) => {
+  const weightHistory = await WeightHistory.findAll({
+    where: { userEmail }
+  });
+  const currentWeight = weightHistory.reduce((prev, curr) => {
+    return prev.timestamp! > curr.timestamp! ? prev : curr;
+  }, weightHistory[0]);
+
+  return currentWeight.weight;
+}
+
+const calculateCalorieGoal = async (user: User) => {
+  const age = moment().diff(user.dateOfBirth, 'years', true);
+  const currentWeight = await getCurrentWeight(user.email);
   let BMR = 0;
 
   // TODO: change to current weight and use real age
   if (user.gender === 'M') {
-    BMR = 88.362 + (13.397 * user.initialWeight!) + (4.799 * user.height!) - (5.677 * 20);
+    BMR = 88.362 + (13.397 * currentWeight!) + (4.799 * user.height!) - (5.677 * age);
   } else {
-    BMR = 447.593 + (9.247 * user.initialWeight!) + (3.098 * user.height!) - (4.330 * 20);
+    BMR = 447.593 + (9.247 * currentWeight!) + (3.098 * user.height!) - (4.330 * age);
   }
 
   return Math.round((1.2 * BMR) - 500);
@@ -22,7 +37,7 @@ const calculateCalorieGoal = (user: User) => {
 
 userRouter.get('/user', async (req: Request, res: Response) => {
   if (req.session.user) {
-    const calorieGoal = req.session.user ? calculateCalorieGoal(req.session.user as User) : 0;
+    const calorieGoal = req.session.user ? await calculateCalorieGoal(req.session.user as User) : 0;
 
     res.json({
       ...req.session.user,
@@ -43,6 +58,11 @@ userRouter.put('/user', async (req: Request, res: Response) => {
       where: {
         email: user.email
       }
+    });
+    await WeightHistory.create({ 
+      userEmail: user.email, 
+      timestamp: new Date(), 
+      weight: userData.initialWeight 
     });
     req.session.user = { ...userData, onboarded: true };
 
