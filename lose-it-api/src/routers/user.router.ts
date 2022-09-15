@@ -37,7 +37,9 @@ const calculateCalorieGoal = async (user: User) => {
 
 userRouter.get('/user', async (req: Request, res: Response) => {
   if (req.session.user) {
-    const calorieGoal = req.session.user ? await calculateCalorieGoal(req.session.user as User) : 0;
+    const calorieGoal = (req.session.user && req.session.user.onboarded) ? 
+      await calculateCalorieGoal(req.session.user as User) : 
+      0;
 
     res.json({
       ...req.session.user,
@@ -54,7 +56,7 @@ userRouter.put('/user', async (req: Request, res: Response) => {
   if (user) {
     const userData = req.body;
 
-    await User.update({ ...userData, onboarded: true }, {
+    await User.update({ ...user, ...userData, onboarded: true }, {
       where: {
         email: user.email
       }
