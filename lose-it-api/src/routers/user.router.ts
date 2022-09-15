@@ -35,75 +35,91 @@ const calculateCalorieGoal = async (user: User) => {
   return Math.round((1.2 * BMR) - 500);
 }
 
-userRouter.get('/user', async (req: Request, res: Response) => {
-  if (req.session.user) {
-    const calorieGoal = (req.session.user && req.session.user.onboarded) ? 
-      await calculateCalorieGoal(req.session.user as User) : 
-      0;
+userRouter.get('/user', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    if (req.session.user) {
+      const calorieGoal = (req.session.user && req.session.user.onboarded) ?
+        await calculateCalorieGoal(req.session.user as User) :
+        0;
 
-    res.json({
-      ...req.session.user,
-      calorieGoal,
-    });
-  } else {
-    res.json();
-  }
-});
-
-userRouter.put('/user', async (req: Request, res: Response) => {
-  const user = req.session.user;
-
-  if (user) {
-    const userData = req.body;
-
-    await User.update({ ...user, ...userData, onboarded: true }, {
-      where: {
-        email: user.email
-      }
-    });
-    await WeightHistory.create({ 
-      userEmail: user.email, 
-      timestamp: new Date(), 
-      weight: userData.initialWeight 
-    });
-    req.session.user = { ...userData, onboarded: true };
-
-    res.json('ok');
-  } else {
-    res.status(401).send('Unauthorized');
-  }
-});
-
-userRouter.post('/login', async (req: Request, res: Response) => {
-  const { email, password: inputPassword } = req.body;
-  const user = await User.findOne({ where: { email } });
-
-  if (user) {
-    const { password: userPassword, ...restOfUser } = user.toJSON();
-
-    if (sha256(inputPassword) === userPassword) {
-      req.session.user = restOfUser;
-
-      res.json({ success: true, user: restOfUser });
+      res.json({
+        ...req.session.user,
+        calorieGoal,
+      });
     } else {
-      res.status(400).json({ success: false, error: 'WRONG_PASSWORD' })
+      res.json();
     }
-  } else {
-    res.status(404).json({ success: false, error: 'USER_NOT_FOUND' })
+  } catch (ex) {
+    next(ex);
   }
 });
 
-userRouter.post('/register', async (req: Request, res: Response) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ where: { email } });
+userRouter.put('/user', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const user = req.session.user;
 
-  if (!user) {
-    await User.create({ email, password: sha256(password) });
-    req.session.user = { email, onboarded: false };
+    if (user) {
+      const userData = req.body;
 
-    res.json({ success: true });
-  } else {
-    res.status(400).json({ success: false, error: 'USER_EXISTS' })
+      await User.update({ ...userData, onboarded: true }, {
+        where: {
+          email: user.email
+        }
+      });
+      await WeightHistory.create({
+        userEmail: user.email,
+        timestamp: new Date(),
+        weight: userData.initialWeight
+      });
+      req.session.user = { ...user, ...userData, onboarded: true };
+
+      res.json('ok');
+    } else {
+      res.status(401).send('Unauthorized');
+    }
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+userRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { email, password: inputPassword } = req.body;
+    const user = await User.findOne({ where: { email } });
+
+    if (user) {
+      const { password: userPassword, ...restOfUser } = user.toJSON();
+
+      if (sha256(inputPassword) === userPassword) {
+        req.session.user = restOfUser;
+
+        res.json({ success: true, user: restOfUser });
+      } else {
+        res.status(400).json({ success: false, error: 'WRONG_PASSWORD' })
+      }
+    } else {
+      res.status(404).json({ success: false, error: 'USER_NOT_FOUND' })
+    }
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+userRouter.post('/register', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      await User.create({ email, password: sha256(password) });
+      req.session.user = { email, onboarded: false };
+
+      res.json({ success: true });
+    } else {
+      res.status(400).json({ success: false, error: 'USER_EXISTS' })
+    }
+  } catch (ex) {
+    next(ex);
   }
 });
 
