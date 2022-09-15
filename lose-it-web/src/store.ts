@@ -4,6 +4,7 @@ import createSagaMiddleware from 'redux-saga'
 import userSaga from './sagas/user.saga';
 import weightHistorySaga from './sagas/weightHistory.saga';
 import { weightHistorySlice } from './features/user/weightHistorySlice';
+import { dialogSlice } from './features/user/dialogSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -11,6 +12,7 @@ const store = configureStore({
     reducer: {
         user: userSlice.reducer,
         weightHistory: weightHistorySlice.reducer,
+        dialog: dialogSlice.reducer,
     },
     middleware: [sagaMiddleware]
 });

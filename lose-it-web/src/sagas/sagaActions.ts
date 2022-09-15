@@ -4,5 +4,6 @@ export const sagaActions = {
     GET_USER: "GET_USER",
     ONBOARD_USER: "ONBOARD_USER",
     FETCH_WEIGHT_HISTORY: "FETCH_WEIGHT_HISTORY",
+    ADD_WEIGHT: "ADD_WEIGHT",
 };
   

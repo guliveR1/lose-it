@@ -1,0 +1,14 @@
+import React from "react";
+import { useAppSelector } from "../../hooks/typed-redux";
+import { DialogType } from "../../types/dialog.type";
+import { AddWeightDialog } from './AddWeightDialog/AddWeightDialog';
+
+export const Dialogs = () => {
+    const type = useAppSelector(state => state.dialog.type);
+
+    return (
+        <>
+            {type === DialogType.ADD_WEIGHT && <AddWeightDialog />}
+        </>
+    );
+}

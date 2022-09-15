@@ -1,6 +1,6 @@
 import axios from 'axios';
 import config from '../config.json';
-import { User } from '../types/user';
+import { User } from '../types/user.type';
 
 export const login = async (email: string, password: string) => {
     return axios.post(`${config.apiUrl}/login`, {
