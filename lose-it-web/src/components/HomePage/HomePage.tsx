@@ -3,6 +3,7 @@ import React, { useEffect } from "react"
 import { useUser } from "../../hooks/useCheckUser";
 import { CalorieGoal } from "./CalorieGoal/CalorieGoal";
 import { DailyTip } from "./DailyTip/DailyTip";
+import { FloatingMenu } from "./FloatingMenu/FloatingMenu";
 import { Meals } from "./Meals/Meals";
 import { WeightChart } from "./WeightChart/WeightChart";
 import { Workouts } from "./Workouts/Workouts";
@@ -46,6 +47,7 @@ export const HomePage = () => {
                     <Workouts />
                     <WeightChart />
                     <DailyTip />
+                    <FloatingMenu />
                 </Box>
             </Box>
         </Box>

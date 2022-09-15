@@ -10,7 +10,8 @@ import {
     Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { Box, Card, CardContent, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, CircularProgress, Fab, Skeleton, Typography } from "@mui/material";
+import { useAppSelector } from "../../../hooks/typed-redux";
 
 ChartJS.register(
     CategoryScale,
@@ -23,13 +24,15 @@ ChartJS.register(
 );
 
 export const WeightChart = () => {
-    const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+    const { isLoading, hasError, history } = useAppSelector(state => state.weightHistory);
+
+    const labels = history?.map(({ timestamp }) => timestamp);
     const data = {
         labels,
         datasets: [
             {
                 label: 'Weight',
-                data: labels.map((_, index) => 100 + (index % 2 === 0 ? index : -index)),
+                data: history?.map(({ weight }) => weight),
                 borderColor: 'rgb(53, 162, 235)',
                 backgroundColor: 'rgba(53, 162, 235, 0.5)'
             },
@@ -42,16 +45,22 @@ export const WeightChart = () => {
                 <CardContent>
                     <Typography variant="h5">Your weight journey</Typography>
                     <Box height="20px" />
-                    <Line
-                        data={data}
-                        options={{
-                            plugins: {
-                                legend: {
-                                    display: false
+                    {!isLoading && !hasError && history &&
+                        <Line
+                            data={data}
+                            options={{
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    }
                                 }
-                            }
-                        }}
-                    />
+                            }}
+                        />
+                    }
+                    {isLoading && !hasError && <Box marginTop="10px">
+                        <CircularProgress />
+                    </Box>}
+                    {hasError && 'Could not load weight history, try to refresh the page.'}
                 </CardContent>
             </Card>
         </Box>

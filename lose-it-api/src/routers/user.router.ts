@@ -1,6 +1,7 @@
 import { createHash } from "crypto";
-import express, { Response, Request } from "express";
+import express, { Response, Request, NextFunction } from "express";
 import { User } from "../models/User";
+import { WeightHistory } from "../models/WeightHistory";
 
 export const userRouter = express.Router();
 
@@ -81,5 +82,27 @@ userRouter.post('/register', async (req: Request, res: Response) => {
     res.json({ success: true });
   } else {
     res.status(400).json({ success: false, error: 'USER_EXISTS' })
+  }
+});
+
+userRouter.get('/user/weight-history', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { email } = req.session.user!;
+
+    res.json(await WeightHistory.findAll({ where: { userEmail: email } }));
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+userRouter.post('/user/weight-history', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { email } = req.session.user!;
+    const { timestamp, weight } = req.body;
+
+    await WeightHistory.create({ userEmail: email, timestamp, weight });
+    res.send();
+  } catch (ex) {
+    next(ex);
   }
 });
