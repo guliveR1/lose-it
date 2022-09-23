@@ -40,6 +40,7 @@ export const AddWeightDialog = () => {
                 <DatePicker
                     value={timestamp}
                     onChange={setTimestamp}
+                    variant="standard"
                 />
             </DialogContent>
             <DialogActions>

@@ -37,7 +37,7 @@ export const Onboard = () => {
                 gender: selectedGender
             }
         });
-    }, [selectedGender, dispatch]);
+    }, [selectedGender, dateOfBirth, dispatch]);
 
     return user && !user.onboarded && (
         <WithSideImage>
