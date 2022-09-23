@@ -6,7 +6,6 @@ export const Workouts = () => {
         <InformationCard 
             title="Enjoy workouts"
             subtitle="Workouts are not mandatory but they sure can help!"
-            primaryButtonText="Add A Meal"
             imageUrl="/workouts.avif"
         />
     )

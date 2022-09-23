@@ -6,7 +6,6 @@ export const Meals = () => {
         <InformationCard 
             title="Log your meals"
             subtitle="You haven't logged any meals today"
-            primaryButtonText="Add A Meal"
             imageUrl="/meals.avif"
         />
     )
