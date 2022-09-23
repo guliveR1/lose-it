@@ -9,6 +9,7 @@ export const Dialogs = () => {
     return (
         <>
             {type === DialogType.ADD_WEIGHT && <AddWeightDialog />}
+            {type === null && <></>}
         </>
     );
 }
