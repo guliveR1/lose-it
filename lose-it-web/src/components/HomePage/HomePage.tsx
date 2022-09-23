@@ -21,7 +21,6 @@ export const HomePage = () => {
         <Box
             sx={{
                 width: '100%',
-                height: '100vh',
                 backgroundColor: '#d9e9ff',
             }}
         >
@@ -32,7 +31,6 @@ export const HomePage = () => {
                     margin: '0 auto',
                     textAlign: 'center',
                     backgroundColor: 'white',
-                    height: "100vh"
                 }}
             >
                 <Box paddingTop="50px">

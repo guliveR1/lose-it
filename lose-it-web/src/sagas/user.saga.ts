@@ -41,6 +41,7 @@ function* getUserData() {
         if (user) {
             yield put(loggedIn(user));
             yield put({ type: sagaActions.FETCH_WEIGHT_HISTORY });
+            yield put({ type: sagaActions.FETCH_MEAL_OPTIONS });
         }
     } finally {
         yield put(userLoaded());
