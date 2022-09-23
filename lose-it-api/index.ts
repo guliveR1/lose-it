@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import { userRouter } from "./src/routers/user.router";
 import session from 'express-session';
 import cors from 'cors';
+import { foodRouter } from "./src/routers/food.router";
 
 const app = express();
 const port = process.env.PORT || 1337;
@@ -22,7 +23,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-app.use('/v1', [userRouter]);
+app.use('/v1', [userRouter, foodRouter]);
 
 app.use((err: Error, _: Request, res: Response, __: NextFunction) => {
   console.error(err);

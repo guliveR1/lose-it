@@ -3,7 +3,6 @@ import express, { Response, Request, NextFunction } from "express";
 import { User } from "../models/User";
 import { WeightHistory } from "../models/WeightHistory";
 import moment from 'moment';
-import sequelize from 'sequelize';
 
 export const userRouter = express.Router();
 
